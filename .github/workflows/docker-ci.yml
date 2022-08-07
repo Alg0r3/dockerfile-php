@@ -28,6 +28,7 @@ jobs:
         password: ${{ secrets.DOCKERHUB_TOKEN }}
     - 
       name: Docker build & push
+      id: docker_build
       uses: docker/build-push-action@v3
       with:
         file: ./Dockerfile
@@ -36,3 +37,6 @@ jobs:
         tags: alg0r3/php:8.1
         cache-from: type=local,src=/tmp/.buildx-cache
         cache-to: type=local,dest=/tmp/.buildx-cache
+    -
+      name: Image digest
+      run: echo ${{ steps.docker_build.outputs.digest }}
